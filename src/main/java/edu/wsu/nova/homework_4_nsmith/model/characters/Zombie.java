@@ -1,49 +1,72 @@
 package edu.wsu.nova.homework_4_nsmith.model.characters;
+
 import edu.wsu.nova.homework_4_nsmith.model.abilities.Vulnerability;
+import javafx.beans.property.*;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serial;
+import java.time.LocalDate;
 import java.util.List;
 
-/**
- * edu.wsu.nova.homework_4_nsmith.model.characters.Zombie class representing a zombie character in a horror game
- * Inherits from edu.wsu.nova.homework_4_nsmith.model.characters.HorrorCharacter class
- * Implements attack and flee methods
- * Overrides toString method
- */
-public class Zombie extends HorrorCharacter{
+public class Zombie extends HorrorCharacter {
 
-    /** Constructor for characters.Zombie class
-     * @param name Name of the zombie
-     * @param health Health of the zombie
-     * @param vulnerabilities Array of vulnerabilities of the zombie
-     */
-    public Zombie(String name, int health, List<Vulnerability> vulnerabilities){
-        super(name, health, vulnerabilities);
+
+    // Transient JavaFX properties
+    private transient StringProperty type = new SimpleStringProperty("Zombie");
+    private transient IntegerProperty maxHealth;
+
+    // Serializable backing fields
+    private String typeValue;
+    private int maxHealthValue;
+
+    public Zombie(String name, int health, List<Vulnerability> vulnerabilities, LocalDate dateCreated) {
+        super(name, health, vulnerabilities, dateCreated);
+        this.maxHealth = new SimpleIntegerProperty(health);
+
+        // Initialize backing fields
+        this.typeValue = "Zombie";
+        this.maxHealthValue = health;
     }
 
-    /**
-     * Attack method for characters.Zombie class
-     * Prints attack message
-     */
+    // Getters and setters
+    public String getTYPE() { return type.get(); }
+    public void setType(String type) {
+        this.type.set(type);
+        this.typeValue = type;
+    }
+    public StringProperty TYPEProperty() { return type; }
+
+    public int getMaxHealth() { return maxHealth.get(); }
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth.set(maxHealth);
+        this.maxHealthValue = maxHealth;
+    }
+    public IntegerProperty maxHealthProperty() { return maxHealth; }
+
     @Override
     public void attack(HorrorCharacter target) {
-        System.out.println("The zombie bites!");
+        System.out.println("Zombie attacks!");
     }
 
-    /**
-     * Flee method for characters.Zombie class
-     * Prints flee message
-     */
     @Override
     public void flee() {
-        System.out.println("The zombie stumbles away!");
+        System.out.println("Zombie flees!");
     }
 
-    /**
-     * toString method for characters.Zombie class
-     * Returns a string representation of the zombie
-     */
-    @Override
-    public String toString() {
-        return "This is a zombie! \n" +
-                super.toString();
+    // Serialization
+    @Serial
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        typeValue = type.get();
+        maxHealthValue = maxHealth.get();
+        oos.defaultWriteObject();
+    }
+
+    @Serial
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+        type = new SimpleStringProperty(typeValue);
+        maxHealth = new SimpleIntegerProperty(maxHealthValue);
     }
 }

@@ -1,98 +1,118 @@
 package edu.wsu.nova.homework_4_nsmith.model.characters;
 
-import java.util.List;
 import edu.wsu.nova.homework_4_nsmith.model.abilities.Vulnerability;
 
-/**
- * Abstract class representing a generic horror character.
- * Contains common attributes and methods for all horror characters.
- */
-public abstract class HorrorCharacter {
-    private String name;
-    private int health;
-    private List<Vulnerability> vulnerabilities;
+import javafx.beans.property.*;
+
+import java.io.*;
+import java.time.LocalDate;
+import java.util.List;
+
+public abstract class HorrorCharacter implements Serializable {
+
+    // Transient JavaFX properties (won't be serialized directly)
+    /** Transient JavaFX properties */
+    private transient StringProperty name = new SimpleStringProperty();
+    private transient IntegerProperty health = new SimpleIntegerProperty();
+    private transient ObjectProperty<List<Vulnerability>> vulnerabilities = new SimpleObjectProperty<>();
+    private transient ObjectProperty<LocalDate> dateCreated = new SimpleObjectProperty<>();
+
+    // Serializable backing fields (will be serialized)
+    /** Serializable backing fields */
+    private String nameValue;
+    private int healthValue;
+    private List<Vulnerability> vulnerabilitiesValue;
+    private LocalDate dateCreatedValue;
+
+    // Constructor
 
     /**
-     * Constructor to initializeComboBox a horror character with a name, health, and vulnerabilities.
-     * @param name The name of the horror character.
-     * @param health The health points of the horror character.
-     * @param vulnerabilities A list of vulnerabilities specific to the horror character.
+     * Constructor for HorrorCharacter
+     * @param name
+     * @param health
+     * @param vulnerabilities
+     * @param dateCreated
      */
-    public HorrorCharacter(String name, int health, List<Vulnerability> vulnerabilities){
-        this.name = name;
-        this.health = health;
-        this.vulnerabilities = vulnerabilities;
+    public HorrorCharacter(String name, int health, List<Vulnerability> vulnerabilities, LocalDate dateCreated) {
+        this.name.set(name);
+        this.health.set(health);
+        this.vulnerabilities.set(vulnerabilities);
+        this.dateCreated.set(dateCreated);
+
+        this.nameValue = name;
+        this.healthValue = health;
+        this.vulnerabilitiesValue = vulnerabilities;
+        this.dateCreatedValue = dateCreated;
     }
 
-    /**
-     * Abstract method for the character to perform an attack.
-     */
+    // Abstract methods
+    /** Abstract methods for attack and flee actions */
     public abstract void attack(HorrorCharacter target);
-
-    /**
-     * Abstract method for the character to flee.
-     */
     public abstract void flee();
 
-    /**
-     * Getter for the name of the horror character.
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Setter for the name of the horror character.
-     * Ensures the name is not null or empty.
-     * @param name The new name for the horror character.
-     */
+    // Getters and setters
+    public String getName() { return name.get(); }
     public void setName(String name) {
-        if (name != null && !name.isEmpty())
-            this.name = name;
+        this.name.set(name);
+        this.nameValue = name;
     }
+    public StringProperty nameProperty() { return name; }
 
-    /**
-     * Getter for the health of the horror character.
-     */
-    public int getHealth() {
-        return health;
-    }
-
-    /**
-     * Setter for the health of the horror character.
-     * Ensures health is non-negative.
-     * @param health The new health value for the horror character.
-     */
+    public int getHealth() { return health.get(); }
     public void setHealth(int health) {
-        if (health >= 0)
-            this.health = health;
+        this.health.set(health);
+        this.healthValue = health;
     }
+    public IntegerProperty healthProperty() { return health; }
 
-    /**
-     * Getter for the vulnerabilities of the horror character.
-     */
-    public List<Vulnerability> getVulnerabilities(){
-        return vulnerabilities;
-    }
-
-    /**
-     * Setter for the vulnerabilities of the horror character.
-     * Ensures the vulnerabilities array is not null.
-     * @param vulnerabilities The new list of vulnerabilities for the horror character.
-     */
+    public List<Vulnerability> getVulnerabilities() { return vulnerabilities.get(); }
     public void setVulnerabilities(List<Vulnerability> vulnerabilities) {
-        if (vulnerabilities != null)
-            this.vulnerabilities = vulnerabilities;
+        this.vulnerabilities.set(vulnerabilities);
+        this.vulnerabilitiesValue = vulnerabilities;
     }
+    public ObjectProperty<List<Vulnerability>> vulnerabilitiesProperty() { return vulnerabilities; }
 
-    /**
-     * Overridden toString method to provide a string representation of the horror character.
-     */
+    public LocalDate getDateCreated() { return dateCreated.get(); }
+    public void setDateCreated(LocalDate dateCreated) {
+        this.dateCreated.set(dateCreated);
+        this.dateCreatedValue = dateCreated;
+    }
+    public ObjectProperty<LocalDate> dateCreatedProperty() { return dateCreated; }
+
+    private final transient StringProperty TYPE = new SimpleStringProperty("HorrorCharacter");
+    public String getTYPE() { return TYPE.get(); }
+    public StringProperty TYPEProperty() { return TYPE; }
+
+
     @Override
     public String toString() {
-        return "characters.HorrorCharacter" + '\n' +
-                "Name: " + getName() + '\n' +
-                "Health: " + getHealth() + '\n' +
+        return "characters.HorrorCharacter\n" +
+                "Name: " + getName() + "\n" +
+                "Health: " + getHealth() + "\n" +
                 "Vulnerabilities: " + getVulnerabilities();
+    }
+
+    // Custom serialization
+    /** Custom serialization methods to handle transient JavaFX properties */
+    @Serial
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
+        // Update backing fields
+        nameValue = getName();
+        healthValue = getHealth();
+        vulnerabilitiesValue = getVulnerabilities();
+        dateCreatedValue = getDateCreated();
+
+        objectOutputStream.defaultWriteObject();
+    }
+
+    @Serial
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+        // Default deserialization
+        objectInputStream.defaultReadObject();
+        // Restore transient properties from backing fields
+        name = new SimpleStringProperty(nameValue);
+        health = new SimpleIntegerProperty(healthValue);
+        vulnerabilities = new SimpleObjectProperty<>(vulnerabilitiesValue);
+        dateCreated = new SimpleObjectProperty<>(dateCreatedValue);
     }
 }

@@ -1,14 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="edu.wsu.nova.homework_4_nsmith.controllers.ViewCharacterController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="551.0" prefWidth="784.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wsu.nova.homework_4_nsmith.utility.controllers.ViewCharacterController">
 
+    <!-- Main VBox -->
+    <VBox spacing="15.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+
+        <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+        </padding>
+
+        <!-- TableView -->
+        <TableView fx:id="monsterTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="monsterTypeColumn" text="Monster Type" />
+                <TableColumn fx:id="transformedColumn" text="Transformed?" />
+                <TableColumn fx:id="monsterNameColumn" text="Name" />
+                <TableColumn fx:id="monsterHealthColumn" text="Health" />
+                <TableColumn fx:id="monsterVulnerabilitiesColumn" text="Vulnerabilities" />
+                <TableColumn fx:id="dateCreatedColumn" text="Date Created" />
+            </columns>
+        </TableView>
+
+        <!-- Buttons HBox -->
+        <HBox alignment="CENTER" spacing="15.0">
+            <Button fx:id="saveMonsterButton" mnemonicParsing="false" onAction="#saveMonsters" text="Save Monsters" HBox.hgrow="ALWAYS" />
+            <Button fx:id="loadMonsterButton" mnemonicParsing="false" onAction="#loadMonsters" text="Load Monsters" HBox.hgrow="ALWAYS" />
+            <Button fx:id="createMonsterButton" mnemonicParsing="false" onAction="#changeToMonsterCreatorView" text="Create A Monster" HBox.hgrow="ALWAYS" />
+        </HBox>
+
+    </VBox>
 </AnchorPane>

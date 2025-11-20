@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.ListView?>
@@ -11,73 +12,57 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wsu.nova.homework_4_nsmith.controllers.CreateCharacterController">
-   <children>
-      <VBox prefHeight="400.0" prefWidth="400.0">
-         <children>
-            <HBox prefHeight="57.0" prefWidth="0.0">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Monster Type:">
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin></Text>
-                  <ComboBox fx:id="monsterTypeComboBox" prefWidth="150.0">
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin></ComboBox>
-               </children>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name:">
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin></Text>
-                  <TextField>
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin></TextField>
-               </children>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Max Health:">
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin></Text>
-                  <TextField>
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin></TextField>
-               </children>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date Created:">
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin></Text>
-                  <DatePicker>
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin></DatePicker>
-               </children>
-            </HBox>
-            <HBox prefHeight="138.0" prefWidth="400.0">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vulnerabilities">
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin></Text>
-                  <ListView fx:id="vulnerabilityListView" prefHeight="119.0" prefWidth="248.0">
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin></ListView>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-      <Button layoutX="14.0" layoutY="429.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="78.0" text="Save" />
-      <Button layoutX="248.0" layoutY="429.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="138.0" text="View Monsters" />
-   </children>
+<AnchorPane prefHeight="616.0" prefWidth="706.0"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="edu.wsu.nova.homework_4_nsmith.utility.controllers.CreateCharacterController">
+
+    <!-- Main Form VBox -->
+    <VBox spacing="15.0" AnchorPane.topAnchor="10.0"
+          AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.bottomAnchor="100.0">
+
+        <padding>
+            <Insets top="15.0" right="15.0" bottom="15.0" left="15.0"/>
+        </padding>
+
+        <!-- Monster Type -->
+        <HBox spacing="10.0" alignment="CENTER_LEFT">
+            <Text text="Monster Type:" />
+            <ComboBox fx:id="monsterTypeComboBox" HBox.hgrow="ALWAYS" />
+            <CheckBox fx:id="transformCheckBox" text="Transformed?" />
+        </HBox>
+
+        <!-- Name -->
+        <HBox spacing="10.0" alignment="CENTER_LEFT">
+            <Text text="Name:" />
+            <TextField fx:id="nameField" HBox.hgrow="ALWAYS" />
+        </HBox>
+
+        <!-- Max Health -->
+        <HBox spacing="10.0" alignment="CENTER_LEFT">
+            <Text text="Max Health:" />
+            <TextField fx:id="healthField" HBox.hgrow="ALWAYS" />
+        </HBox>
+
+        <!-- Date Created -->
+        <HBox spacing="10.0" alignment="CENTER_LEFT">
+            <Text text="Date Created:" />
+            <DatePicker fx:id="creationDatePicker" HBox.hgrow="ALWAYS" />
+        </HBox>
+
+        <!-- Vulnerabilities -->
+        <HBox spacing="10.0" alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+            <Text text="Vulnerabilities:" />
+            <ListView fx:id="vulnerabilityListView" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" />
+        </HBox>
+    </VBox>
+
+    <!-- Buttons anchored at the bottom with spacing -->
+    <HBox spacing="15.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.bottomAnchor="10.0" alignment="CENTER_LEFT">
+        <Button fx:id="addMonsterButton" mnemonicParsing="false" onAction="#addMonster" text="Add Monster" HBox.hgrow="ALWAYS" />
+        <Button fx:id="viewMonsterButton" mnemonicParsing="false" onAction="#changeToMonsterViewer" text="View Monsters" HBox.hgrow="ALWAYS" />
+        <Button fx:id="saveMonsterButton" mnemonicParsing="false" onAction="#saveMonster" text="Save Monsters" HBox.hgrow="ALWAYS" />
+        <Button fx:id="loadMonsterButton" mnemonicParsing="false" onAction="#loadMonster" text="Load Monsters" HBox.hgrow="ALWAYS" />
+    </HBox>
+
 </AnchorPane>

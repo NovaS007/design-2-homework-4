@@ -1,4 +1,4 @@
-package edu.wsu.nova.homework_4_nsmith;
+package edu.wsu.nova.homework_4_nsmith.app;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -7,6 +7,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Main application class for the Monster Manager JavaFX application.
+ */
 public class MonsterManagerApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
@@ -16,6 +19,5 @@ public class MonsterManagerApp extends Application {
         stage.setScene(scene);
         stage.setFullScreen(true);
         stage.show();
-
     }
 }
