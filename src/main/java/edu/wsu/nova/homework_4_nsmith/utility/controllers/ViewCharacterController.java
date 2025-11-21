@@ -22,8 +22,7 @@ import java.util.stream.Collectors;
  */
 public class ViewCharacterController {
 
-    // ----------------- FXML UI Components ----------------- //
-    @FXML private Button loadMonsterButton;
+    // @FXML private Button loadMonsterButton;
     @FXML private Button saveMonsterButton;
     @FXML private Button createMonsterButton;
 
@@ -35,8 +34,7 @@ public class ViewCharacterController {
     @FXML private TableColumn<HorrorCharacter, String> monsterVulnerabilitiesColumn;
     @FXML private TableColumn<HorrorCharacter, LocalDate> dateCreatedColumn;
 
-    // ----------------- Initialization ----------------- //
-
+    // Initialization
     @FXML
     public void initialize() {
         setupTable();
@@ -48,7 +46,7 @@ public class ViewCharacterController {
         monsterTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         monsterTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
 
-        // ----------------- Cell Value Factories ----------------- //
+        // Cell Value Factories
         monsterTypeColumn.setCellValueFactory(cellData -> cellData.getValue().TYPEProperty());
         monsterNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
         monsterHealthColumn.setCellValueFactory(cellData ->
@@ -71,7 +69,7 @@ public class ViewCharacterController {
             return new SimpleStringProperty("N/A");
         });
 
-        // ----------------- Editable Columns ----------------- //
+        // Cell Factories for Editing
         monsterNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         monsterNameColumn.setOnEditCommit(event -> event.getRowValue().setName(event.getNewValue()));
 
@@ -82,7 +80,7 @@ public class ViewCharacterController {
             event.getRowValue().setHealth(newHealth);
         });
 
-        // ----------------- Column Widths ----------------- //
+        // Column Widths
         // These are relative; JavaFX will proportionally adjust with table width
         monsterTypeColumn.setMaxWidth(1f * Integer.MAX_VALUE * 15);         // 15%
         transformedColumn.setMaxWidth(1f * Integer.MAX_VALUE * 10);         // 10%
@@ -92,14 +90,14 @@ public class ViewCharacterController {
         dateCreatedColumn.setMaxWidth(1f * Integer.MAX_VALUE * 15);         // 15%
     }
 
-    // ----------------- Table Population ----------------- //
+    // Populate Table
     @FXML
     public void populateTable() {
         ObservableList<HorrorCharacter> allMonsters = AppData.getAllCharacters();
         monsterTable.setItems(allMonsters);
     }
 
-    // ----------------- Scene Switching ----------------- //
+    // Scene Switching
     @FXML
     public void changeToMonsterCreatorView() {
         try {
@@ -111,7 +109,7 @@ public class ViewCharacterController {
         }
     }
 
-    // ----------------- File I/O ----------------- //
+    // File Operations
     @FXML
     public void saveMonsters() {
         FileHandler.saveAsFile();

@@ -201,6 +201,7 @@ public class CreateCharacterController {
         clearForm();
     }
 
+    // Helper method to create a HorrorCharacter based on user input
     private HorrorCharacter makeHorrorCharacter(int maxHealth, ArrayList<Vulnerability> vulnerabilities) {
         String selectedMonsterType = monsterTypeComboBox.getSelectionModel().getSelectedItem();
         LocalDate dateCreated = creationDatePicker.getValue();
@@ -214,6 +215,7 @@ public class CreateCharacterController {
         };
     }
 
+    // Helper method to clear the form after adding a monster
     private void clearForm() {
         monsterTypeComboBox.getSelectionModel().selectFirst();
         nameField.clear();
@@ -223,6 +225,7 @@ public class CreateCharacterController {
         transformCheckBox.setSelected(false);
     }
 
+    // Helper method to show error alerts
     private void showError(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -231,6 +234,7 @@ public class CreateCharacterController {
         alert.showAndWait();
     }
 
+    // Helper method to show confirmation alerts
     private void showConfirmation() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Monster Added");
